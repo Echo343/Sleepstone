@@ -1,0 +1,62 @@
+{
+	"effect.warp.in": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.in",
+		"sounds": [
+			{
+				"name": "sleepstone:bhab",
+				"stream": false
+			}
+		]
+	},
+	"effect.warp.out": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.out",
+		"sounds": [
+			{
+				"name": "sleepstone:warp_out",
+				"stream": false
+			}
+		]
+	},
+	"effect.warp.fizzle": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.fizzle",
+		"sounds": [ "sleepstone:fizzle" ]
+	},
+	"effect.warp.no.warp": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.no.warp",
+		"sounds": [ "sleepstone:nowarp" ]
+	},
+	"effect.warp.channel.waiting": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.channel.waiting",
+		"sounds": [ "sleepstone:channel_waiting" ]
+	},
+	"effect.warp.channel.1": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.channel",
+		"sounds": [ "sleepstone:channel" ]
+	},
+	"effect.warp.channel.15": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.channel",
+		"sounds": [ "sleepstone:channel15" ]
+	},
+	"effect.warp.channel.30": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.channel",
+		"sounds": [ "sleepstone:channel30" ]
+	},
+	"effect.warp.channel.60": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.channel",
+		"sounds": [ "sleepstone:channel60" ]
+	},
+	"effect.warp.channel.120": {
+		"category": "player",
+		"subtitle": "sleepstone.subtitle.warp.channel",
+		"sounds": [ "sleepstone:channel120" ]
+	}
+}

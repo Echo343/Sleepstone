@@ -1,0 +1,35 @@
+{
+    "parent": "blargsworkshop:root",
+    "display": {
+        "icon": {
+            "item": "sleepstone:stone"
+        },
+        "title": {
+            "translate": "advancements.sleepstone.acquire_sleepstone.title"
+        },
+        "description": {
+            "translate": "advancements.sleepstone.acquire_sleepstone.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "acquire_sleepstone": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "sleepstone:stone"
+                    }
+                ]
+            }
+        }
+    },
+    "requirements": [
+        [
+            "acquire_sleepstone"
+        ]
+    ]
+}

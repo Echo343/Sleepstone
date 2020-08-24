@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#R#",
+        "gBg",
+        "#R#"
+    ],
+    "key": {
+        "#": [
+            {
+                "item": "minecraft:stone"
+            },
+            {
+                "item": "minecraft:polished_blackstone"
+            }
+        ],
+        "R": {
+            "item": "minecraft:redstone_block"
+        },
+        "g": {
+            "tag": "forge:ingots/gold"
+        },
+        "B": {
+            "tag": "minecraft:beds"
+        }
+    },
+    "result": {
+        "item": "sleepstone:stone",
+        "count": 1
+    }
+}
