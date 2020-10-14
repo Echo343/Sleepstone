@@ -37,7 +37,8 @@ public class SetSpawnEventHandler {
 											player.func_241141_L_(),
 											player.func_241140_K_(),
 											event.getSpawnWorld(),
-											event.getNewSpawn()));
+											event.getNewSpawn(),
+											player.func_242109_L()));
 							event.setCanceled(true);
 						}
 					}

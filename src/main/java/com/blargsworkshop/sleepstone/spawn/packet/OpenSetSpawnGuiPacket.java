@@ -18,9 +18,10 @@ public class OpenSetSpawnGuiPacket {
 	private final @Nullable BlockPos spawnPos;
 	private final RegistryKey<World> newWorldKey;
 	private final BlockPos newSpawnPos;
+	private final float direction;
 
 	public OpenSetSpawnGuiPacket(PacketBuffer buf) {
-		worldKey = RegistryKey.func_240903_a_(net.minecraft.util.registry.Registry.WORLD_KEY, buf.readResourceLocation());
+		worldKey = RegistryKey.getOrCreateKey(net.minecraft.util.registry.Registry.WORLD_KEY, buf.readResourceLocation());
 		boolean isNotNull = buf.readBoolean();
 		if (isNotNull) {
 			spawnPos = buf.readBlockPos();			
@@ -28,19 +29,21 @@ public class OpenSetSpawnGuiPacket {
 		else {
 			spawnPos = null;
 		}
-		newWorldKey = RegistryKey.func_240903_a_(net.minecraft.util.registry.Registry.WORLD_KEY, buf.readResourceLocation());
+		newWorldKey = RegistryKey.getOrCreateKey(net.minecraft.util.registry.Registry.WORLD_KEY, buf.readResourceLocation());
 		newSpawnPos = buf.readBlockPos();
+		direction = buf.readFloat();
 	}
 
-	public OpenSetSpawnGuiPacket(RegistryKey<World> worldKey, @Nullable BlockPos spawnPos, RegistryKey<World> newWorldKey, BlockPos newSpawnPos) {
+	public OpenSetSpawnGuiPacket(RegistryKey<World> worldKey, @Nullable BlockPos spawnPos, RegistryKey<World> newWorldKey, BlockPos newSpawnPos, float direction) {
 		this.worldKey = worldKey;
 		this.spawnPos = spawnPos;
 		this.newWorldKey = newWorldKey;
 		this.newSpawnPos = newSpawnPos;
+		this.direction = direction;
 	}
 
 	public void toBytes(PacketBuffer buf) {
-		buf.writeResourceLocation(worldKey.func_240901_a_());
+		buf.writeResourceLocation(worldKey.getLocation());
 		if (spawnPos != null) {
 			buf.writeBoolean(true);
 			buf.writeBlockPos(spawnPos);
@@ -48,13 +51,14 @@ public class OpenSetSpawnGuiPacket {
 		else {
 			buf.writeBoolean(false);
 		}
-		buf.writeResourceLocation(newWorldKey.func_240901_a_());
+		buf.writeResourceLocation(newWorldKey.getLocation());
 		buf.writeBlockPos(newSpawnPos);
+		buf.writeFloat(direction);
 	}
 
 	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			SetSpawnScreen.open(worldKey, spawnPos, newWorldKey, newSpawnPos);
+			SetSpawnScreen.open(worldKey, spawnPos, newWorldKey, newSpawnPos, direction);
 		});
 		ctx.get().setPacketHandled(true);
 	}

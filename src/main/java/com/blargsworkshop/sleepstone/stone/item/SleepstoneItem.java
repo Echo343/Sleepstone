@@ -163,8 +163,9 @@ public class SleepstoneItem extends Item {
 				if (blockpos != null) {
 					boolean isSpawnForced = false;
 					boolean keepEverything = true;
+					float spawnAngle = player.func_242109_L();
 					Optional<Vector3d> optional;
-					optional = PlayerEntity.func_234567_a_(serverworld, blockpos, isSpawnForced, keepEverything);
+					optional = PlayerEntity.func_242374_a(serverworld, blockpos, spawnAngle, isSpawnForced, keepEverything);
 					if (optional.isPresent()) {
 						// Warp
 						SoundManager.playSoundAtEntity(player, Registry.Sounds.WARP_OUT);

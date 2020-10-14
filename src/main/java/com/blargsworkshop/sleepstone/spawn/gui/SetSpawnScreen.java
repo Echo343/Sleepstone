@@ -8,6 +8,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.RegistryKey;
@@ -25,15 +26,17 @@ public class SetSpawnScreen extends Screen {
 	private static final int HEIGHT = 151;
 	private final BlockPos newSpawnPos;
 	private final RegistryKey<World> newWorldKey;
+	private final float direction;
 	private final IFormattableTextComponent currentSpawnMsgKey;
 	private int currentPosTextY = 0;
 	
-	public SetSpawnScreen(RegistryKey<World> worldKey, @Nullable BlockPos spawnPos, RegistryKey<World> newWorldKey, BlockPos newSpawnPos) {
+	public SetSpawnScreen(RegistryKey<World> worldKey, @Nullable BlockPos spawnPos, RegistryKey<World> newWorldKey, BlockPos newSpawnPos, float direction) {
 		super(new TranslationTextComponent("text.gui.title.setspawn"));
 		this.newWorldKey = newWorldKey;
 		this.newSpawnPos = newSpawnPos;
+		this.direction = direction;
 		
-		String worldStr = worldKey.func_240901_a_().getPath();
+		String worldStr = worldKey.getLocation().getPath();
 		IFormattableTextComponent worldStringComponent;
 		Style worldColor;
 
@@ -85,7 +88,7 @@ public class SetSpawnScreen extends Screen {
 	}
 	
 	private void setSpawn() {
-		Networking.INSTANCE.sendToServer(new SetSpawnPacket(newWorldKey, newSpawnPos));
+		Networking.INSTANCE.sendToServer(new SetSpawnPacket(newWorldKey, newSpawnPos, direction));
 		this.getMinecraft().displayGuiScreen(null);
 	}
 	
@@ -95,12 +98,12 @@ public class SetSpawnScreen extends Screen {
 		GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
 
 		this.renderBackground(matrixStack);
-        this.drawCenteredString(matrixStack, this.font, this.title, this.width / 2, 40, 16777215);
-        this.drawCenteredString(matrixStack, this.font, this.currentSpawnMsgKey, this.width / 2, currentPosTextY, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, this.title, this.width / 2, 40, 16777215);
+        AbstractGui.drawCenteredString(matrixStack, this.font, this.currentSpawnMsgKey, this.width / 2, currentPosTextY, 16777215);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
 	
-	public static void open(RegistryKey<World> worldKey, @Nullable BlockPos spawnPos, RegistryKey<World> newWorldKey, BlockPos newSpawnPos) {
-		Minecraft.getInstance().displayGuiScreen(new SetSpawnScreen(worldKey, spawnPos, newWorldKey, newSpawnPos));
+	public static void open(RegistryKey<World> worldKey, @Nullable BlockPos spawnPos, RegistryKey<World> newWorldKey, BlockPos newSpawnPos, float direction) {
+		Minecraft.getInstance().displayGuiScreen(new SetSpawnScreen(worldKey, spawnPos, newWorldKey, newSpawnPos, direction));
 	}
 }

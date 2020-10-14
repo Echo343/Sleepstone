@@ -9,7 +9,11 @@
 modLoader="javafml" #mandatory
 
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
-loaderVersion="[32,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+loaderVersion="[34,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+
+# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
+# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
+license="GNU General Public License v3.0"
 
 # A URL to refer people to when problems occur with this mod
 issueTrackerURL="https://github.com/Echo343/Sleepstone/issues" #optional
@@ -54,7 +58,7 @@ Blarg has also found a way to prevent a spawn from being set without confirmatio
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[32.0.79,)" #mandatory
+    versionRange="[34,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -64,13 +68,13 @@ Blarg has also found a way to prevent a spawn from being set without confirmatio
 [[dependencies.sleepstone]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.1]"
+    versionRange="[1.16.2,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.sleepstone]]
     modId="blargsworkshop"
     mandatory=true
-    versionRange="[1.0.0,)"
+    versionRange="[1.1.0,)"
     ordering="NONE"
     side="BOTH"
