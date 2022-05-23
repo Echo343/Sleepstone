@@ -58,7 +58,7 @@ Blarg has also found a way to prevent a spawn from being set without confirmatio
     # Does this dependency have to exist - if not, ordering below must be specified
     mandatory=true #mandatory
     # The version range of the dependency
-    versionRange="[34,)" #mandatory
+    versionRange="[35.1.4,)" #mandatory
     # An ordering relationship for the dependency - BEFORE or AFTER required if the relationship is not mandatory
     ordering="NONE"
     # Side this dependency is applied on - BOTH, CLIENT or SERVER
@@ -68,13 +68,13 @@ Blarg has also found a way to prevent a spawn from being set without confirmatio
 [[dependencies.sleepstone]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.2,)"
+    versionRange="[1.16.4,)"
     ordering="NONE"
     side="BOTH"
 
 [[dependencies.sleepstone]]
     modId="blargsworkshop"
     mandatory=true
-    versionRange="[1.1.0,)"
+    versionRange="[1.2.0,)"
     ordering="NONE"
     side="BOTH"
