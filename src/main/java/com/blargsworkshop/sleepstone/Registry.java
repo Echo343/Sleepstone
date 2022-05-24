@@ -3,10 +3,10 @@ package com.blargsworkshop.sleepstone;
 import com.blargsworkshop.sleepstone.stone.effect.WarpSicknessEffect;
 import com.blargsworkshop.sleepstone.stone.item.SleepstoneItem;
 
-import net.minecraft.item.Item;
-import net.minecraft.potion.Effect;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.SoundEvent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ObjectHolder;
 
 public class Registry {
 	static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Sleepstone.MOD_ID);
-	static final DeferredRegister<Effect> EFFECTS = DeferredRegister.create(ForgeRegistries.POTIONS, Sleepstone.MOD_ID);
+	static final DeferredRegister<MobEffect> EFFECTS = DeferredRegister.create(ForgeRegistries.MOB_EFFECTS, Sleepstone.MOD_ID);
 	static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(ForgeRegistries.SOUND_EVENTS, Sleepstone.MOD_ID);
 
 	public static void init() {
@@ -47,7 +47,7 @@ public class Registry {
 	// Effects
 	@ObjectHolder("sleepstone")
 	public static class Effects {
-		public static final Effect WARP_SICKNESS = null;
+		public static final MobEffect WARP_SICKNESS = null;
 	}
 	
 	// Sounds

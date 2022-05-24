@@ -2,31 +2,32 @@ package com.blargsworkshop.sleepstone.stone.item;
 
 import java.util.Optional;
 
-import com.blargsworkshop.common.BlargsWorkshop;
 import com.blargsworkshop.common.sound.SoundManager;
 import com.blargsworkshop.common.text.Chat;
 import com.blargsworkshop.common.utility.WorldHelper;
 import com.blargsworkshop.sleepstone.Registry;
+import com.blargsworkshop.sleepstone.Sleepstone;
 import com.blargsworkshop.sleepstone.stone.capability.IStoneCooldown;
 import com.blargsworkshop.sleepstone.stone.capability.StoneCooldownProvider;
 import com.blargsworkshop.sleepstone.stone.effect.WarpSicknessEffectInstance;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.UseAction;
-import net.minecraft.network.play.server.SPlayEntityEffectPacket;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.TextColor;
+import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.UseAnim;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 
 public class SleepstoneItem extends Item {
 	
@@ -34,17 +35,17 @@ public class SleepstoneItem extends Item {
 	private static final int CHANNEL_DURATION = 20 * 4;
 	
 	public SleepstoneItem() {
-		super(new Item.Properties().group(BlargsWorkshop.TAB).maxStackSize(1));
+		super(new Item.Properties().tab(Sleepstone.TAB).stacksTo(1));
 	}
 		
 	@Override
-	public void onPlayerStoppedUsing(ItemStack stack, World worldIn, LivingEntity entityLiving, int timeLeft) {
-		if (entityLiving instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) entityLiving;
+	public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
+		if (entityLiving instanceof Player) {
+			Player player = (Player) entityLiving;
 			int timeUsed = this.getUseDuration(stack) - timeLeft;
 			if (WorldHelper.isServer(worldIn)) {
 				if (timeUsed >= CHANNEL_DURATION) {
-					this.warpPlayerToSpawn((ServerPlayerEntity) player);
+					this.warpPlayerToSpawn((ServerPlayer) player);
 					Chat.clearStatusMessage(player);
 				}
 				else if (timeUsed < CHANNEL_DURATION) {
@@ -60,13 +61,13 @@ public class SleepstoneItem extends Item {
 	}
 
 	@Override
-	public void onUse(World worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
-		if (livingEntityIn instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) livingEntityIn;
+	public void onUseTick(Level worldIn, LivingEntity livingEntityIn, ItemStack stack, int count) {
+		if (livingEntityIn instanceof Player) {
+			Player player = (Player) livingEntityIn;
 			if (WorldHelper.isServer(worldIn)) {
 				boolean isWarpReady = this.getUseDuration(stack) - count >= CHANNEL_DURATION;
 				if (isWarpReady) {
-					Chat.showStatusMessage(player, TextFormatting.GREEN, "warp.is.ready");
+					Chat.showStatusMessage(player, TextColor.fromLegacyFormat(ChatFormatting.GREEN), "warp.is.ready");
 				}			
 			}
 			int i = this.getUseDuration(stack) - count;
@@ -101,7 +102,7 @@ public class SleepstoneItem extends Item {
 		}
 	}
 	
-	private void playSound(PlayerEntity player, World world, SoundEvent sound) {
+	private void playSound(Player player, Level world, SoundEvent sound) {
 		if (WorldHelper.isClient(world)) {
 			SoundManager.playSoundAtEntity(player, sound);
 		}
@@ -115,9 +116,9 @@ public class SleepstoneItem extends Item {
 	 * this item is used on a Block, see {@link #onItemUse}.
 	 */
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand handIn) {
-		ItemStack itemstack = player.getHeldItem(handIn);
-		if (player.isPotionActive(Registry.Effects.WARP_SICKNESS)) {
+	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand handIn) {
+		ItemStack itemstack = player.getItemInHand(handIn);
+		if (player.hasEffect(Registry.Effects.WARP_SICKNESS)) {
 			// Warp Sickness
 			if (WorldHelper.isClient(world)) {		
 				itemstack.getCapability(StoneCooldownProvider.STONE_COOLDOWN_CAPABILITY).ifPresent((cooldown) -> {			
@@ -126,14 +127,14 @@ public class SleepstoneItem extends Item {
 						cooldown.setWorldTime(world.getGameTime());
 					}
 				});
-				Chat.showStatusMessage(player, TextFormatting.DARK_PURPLE, "warp.fail.suffering_effects_of_warp_sickness");
+				Chat.showStatusMessage(player, TextColor.fromLegacyFormat(ChatFormatting.DARK_PURPLE), "warp.fail.suffering_effects_of_warp_sickness");
 			}
-			return ActionResult.resultFail(itemstack);
+			return InteractionResultHolder.fail(itemstack);
 		}
 		else {
 			// Start Channeling
-			player.setActiveHand(handIn);
-			return ActionResult.resultConsume(itemstack);
+			player.startUsingItem(handIn);
+			return InteractionResultHolder.consume(itemstack);
 		}
 	}
 
@@ -142,8 +143,8 @@ public class SleepstoneItem extends Item {
 	 * being used
 	 */
 	@Override
-	public UseAction getUseAction(ItemStack stack) {
-		return UseAction.BOW;
+	public UseAnim getUseAnimation(ItemStack p_41452_) {
+      return UseAnim.BOW;
 	}
 
 	/**
@@ -154,33 +155,33 @@ public class SleepstoneItem extends Item {
 		return 72000;
 	}
 
-	protected void warpPlayerToSpawn(ServerPlayerEntity player) {
-		World world = player.getEntityWorld();
+	protected void warpPlayerToSpawn(ServerPlayer player) {
+		Level world = player.getCommandSenderWorld();
 		if (WorldHelper.isServer(world)) {
-			BlockPos blockpos = player.func_241140_K_();
-			ServerWorld serverworld = player.getServerWorld().getServer().getWorld(player.func_241141_L_());
+			BlockPos blockpos = player.getRespawnPosition();
+			ServerLevel serverworld = player.getLevel().getServer().getLevel(player.getRespawnDimension());
 			if (serverworld != null) {
 				if (blockpos != null) {
 					boolean isSpawnForced = false;
 					boolean keepEverything = true;
-					float spawnAngle = player.func_242109_L();
-					Optional<Vector3d> optional;
-					optional = PlayerEntity.func_242374_a(serverworld, blockpos, spawnAngle, isSpawnForced, keepEverything);
+					float spawnAngle = player.getRespawnAngle();
+					Optional<Vec3> optional;
+					optional = Player.findRespawnPositionAndUseSpawnBlock(serverworld, blockpos, spawnAngle, isSpawnForced, keepEverything);
 					if (optional.isPresent()) {
 						// Warp
 						SoundManager.playSoundAtEntity(player, Registry.Sounds.WARP_OUT);
-						player.teleport(serverworld, optional.get().getX(), optional.get().getY(), optional.get().getZ(), player.rotationYaw, player.rotationPitch);
+						player.teleportTo(serverworld, optional.get().x(), optional.get().y(), optional.get().z(), player.yRotO, player.xRotO);
 						
 						// Resync some things that Vanilla is missing:
 						if (world != serverworld) {					
-					        for (EffectInstance effectinstance : player.getActivePotionEffects()) {
-					            player.connection.sendPacket(new SPlayEntityEffectPacket(player.getEntityId(), effectinstance));
+					        for (MobEffectInstance effectinstance : player.getActiveEffects()) {
+					            player.connection.send(new ClientboundUpdateMobEffectPacket(player.getId(), effectinstance));
 					        }
-					        player.setExperienceLevel(player.experienceLevel);
+					        player.setExperienceLevels(player.experienceLevel);
 						}
 				        
 				        // TODO - stop all sounds for player
-				        player.addPotionEffect(new WarpSicknessEffectInstance());
+				        player.addEffect(new WarpSicknessEffectInstance());
 				        SoundManager.playSoundAtEntityFromServer(player, Registry.Sounds.WARP_IN);
 					} else {
 						// Don't warp
