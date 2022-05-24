@@ -1,14 +1,14 @@
 package com.blargsworkshop.common.utility;
 
-import net.minecraft.world.World;
+import net.minecraft.world.level.Level;
 
 public class WorldHelper {
 
-	public static boolean isServer(World worldObj) {
-		return !worldObj.isRemote;
+	public static boolean isServer(Level worldObj) {
+		return !worldObj.isClientSide;
 	}
 	
-	public static boolean isClient(World worldObj) {
+	public static boolean isClient(Level worldObj) {
 		return !isServer(worldObj);
 	}
 }

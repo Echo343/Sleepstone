@@ -2,12 +2,12 @@ package com.blargsworkshop.common.sound;
 
 import javax.annotation.Nonnull;
 
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.network.play.server.SPlaySoundEffectPacket;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.protocol.game.ClientboundSoundPacket;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
 
 /**
  * Use the api in this class to pay sounds.
@@ -43,9 +43,9 @@ public class SoundManager {
 	 * @param sound
 	 */
 	public static void playSoundAtEntityFromServer(Entity entity, SoundEvent sound) {
-		if (entity instanceof PlayerEntity) {
-			PlayerEntity player = (PlayerEntity) entity;
-			player.getEntityWorld().playSound(null, new BlockPos(player.getPosX(), player.getPosY(), player.getPosZ()), sound, player.getSoundCategory(), 1f, 1f);
+		if (entity instanceof Player) {
+			Player player = (Player) entity;
+			player.getCommandSenderWorld().playSound(null, new BlockPos(player.getX(), player.getY(), player.getZ()), sound, player.getSoundSource(), 1f, 1f);
 		}
 		else {
 			playSoundAtEntity(entity, sound);
@@ -59,16 +59,16 @@ public class SoundManager {
 	 * @param range normal is 16D
 	 * @param volume
 	 */
-	public static void playSoundAtEntityWithRange(@Nonnull PlayerEntity player, SoundEvent soundIn, double range, float volume) {
-		net.minecraftforge.event.entity.PlaySoundAtEntityEvent event = net.minecraftforge.event.ForgeEventFactory.onPlaySoundAtEntity(player, soundIn, player.getSoundCategory(), volume, 1.0F);
+	public static void playSoundAtEntityWithRange(@Nonnull Player player, SoundEvent soundIn, double range, float volume) {
+		net.minecraftforge.event.entity.PlaySoundAtEntityEvent event = net.minecraftforge.event.ForgeEventFactory.onPlaySoundAtEntity(player, soundIn, player.getSoundSource(), volume, 1.0F);
 		if (event.isCanceled() || event.getSound() == null) return;
 		soundIn = event.getSound();
-		SoundCategory category = event.getCategory();
+		SoundSource category = event.getCategory();
 		volume = event.getVolume();
-		double x = player.getPosX();
-		double y = player.getPosY();
-		double z = player.getPosZ();
-		player.getEntityWorld().getServer().getPlayerList().sendToAllNearExcept(player, x, y, z, range, player.getEntityWorld().getDimensionKey(), new SPlaySoundEffectPacket(soundIn, category, x, y, z, volume, 1.0F));
+		double x = player.getX();
+		double y = player.getY();
+		double z = player.getZ();
+		player.getCommandSenderWorld().getServer().getPlayerList().broadcast(player, x, y, z, range, player.getCommandSenderWorld().dimension(), new ClientboundSoundPacket(soundIn, category, x, y, z, volume, 1.0F));
 	}
 
 }
