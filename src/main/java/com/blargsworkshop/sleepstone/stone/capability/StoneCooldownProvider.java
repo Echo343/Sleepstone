@@ -3,9 +3,9 @@ package com.blargsworkshop.sleepstone.stone.capability;
 import com.blargsworkshop.sleepstone.Sleepstone;
 import com.blargsworkshop.sleepstone.stone.item.SleepstoneItem;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.core.Direction;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;

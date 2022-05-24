@@ -3,7 +3,7 @@ package com.blargsworkshop.sleepstone.spawn.capability;
 import com.blargsworkshop.sleepstone.Sleepstone;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.Player;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
@@ -33,7 +33,7 @@ public class SetSpawnChoiceProvider implements ICapabilityProvider {
 	
 	@SubscribeEvent
 	public static void onAttachCapabilityToEntity(AttachCapabilitiesEvent<Entity> event) {
-		if (event.getObject() instanceof PlayerEntity) {
+		if (event.getObject() instanceof Player) {
 			SetSpawnChoiceProvider provider = new SetSpawnChoiceProvider();
 			event.addCapability(new ResourceLocation(Sleepstone.MOD_ID, "spawn_choice"), provider);
 			event.addListener(provider::invalidate);

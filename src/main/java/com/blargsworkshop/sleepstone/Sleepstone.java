@@ -1,8 +1,6 @@
 package com.blargsworkshop.sleepstone;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import org.slf4j.Logger;
 
 import com.blargsworkshop.sleepstone.network.Networking;
 import com.blargsworkshop.sleepstone.spawn.capability.ISetSpawnChoice;
@@ -12,7 +10,11 @@ import com.blargsworkshop.sleepstone.spawn.event.SetSpawnEventHandler;
 import com.blargsworkshop.sleepstone.stone.capability.IStoneCooldown;
 import com.blargsworkshop.sleepstone.stone.capability.StoneCooldown;
 import com.blargsworkshop.sleepstone.stone.capability.StoneCooldownStorage;
+import com.mojang.logging.LogUtils;
 
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
@@ -25,9 +27,10 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod("sleepstone")
 public class Sleepstone {
 	public static final boolean DEBUG = false;
-
-	// Directly reference a log4j logger.
-//    private static final Logger LOG = LogManager.getLogger();
+	
+	 // Directly reference a slf4j logger
+    private static final Logger LOGGER = LogUtils.getLogger();
+    
 	public static final String MOD_ID = "sleepstone";
 
 	public Sleepstone() {
@@ -43,11 +46,12 @@ public class Sleepstone {
 		CapabilityManager.INSTANCE.register(IStoneCooldown.class, new StoneCooldownStorage(), StoneCooldown::new);
 		CapabilityManager.INSTANCE.register(ISetSpawnChoice.class, new SetSpawnChoiceStorage(), SetSpawnChoice::new);
 	}
-	public static final ItemGroup TAB = new ItemGroup("blargsTab") {
-		@Override
+	
+	public static final CreativeModeTab TAB = new CreativeModeTab("blargsTab") {
+        @Override
 		@OnlyIn(Dist.CLIENT)
-		public ItemStack createIcon() {
-			return new ItemStack(Blocks.SMITHING_TABLE);
-		}
-	};
+        public ItemStack makeIcon() {
+            return new ItemStack(Blocks.SMITHING_TABLE);
+        }
+    };
 }

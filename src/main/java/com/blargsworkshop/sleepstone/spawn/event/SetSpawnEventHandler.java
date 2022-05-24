@@ -4,41 +4,41 @@ import com.blargsworkshop.sleepstone.network.Networking;
 import com.blargsworkshop.sleepstone.spawn.capability.SetSpawnChoiceProvider;
 import com.blargsworkshop.sleepstone.spawn.packet.OpenSetSpawnGuiPacket;
 
-import net.minecraft.block.BedBlock;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.block.BedBlock;
 import net.minecraftforge.event.entity.player.PlayerSetSpawnEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.network.PacketDistributor;
+import net.minecraftforge.network.PacketDistributor;
 
 public class SetSpawnEventHandler {
 
 	@SubscribeEvent
 	public void onSpawnPointSet(PlayerSetSpawnEvent event) {
 		event.getPlayer().getCapability(SetSpawnChoiceProvider.SET_SPAWN_CHOICE_CAPABILITY).ifPresent((spawnChoice) -> {
-			ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
-			if (spawnChoice.isSetSpawnChoiceActive() || player.func_241140_K_() == null) {
+			ServerPlayer player = (ServerPlayer) event.getPlayer();
+			if (spawnChoice.isSetSpawnChoiceActive() || player.getRespawnPosition() == null) {
 				spawnChoice.setSpawnChoice(false);
 			}
 			else {
 				if (
 					event.isForced() == false &&
 					event.getNewSpawn() != null &&
-					event.getPlayer().getServer().getWorld(event.getSpawnWorld()).getBlockState(event.getNewSpawn()).getBlock() instanceof BedBlock
+					event.getPlayer().getServer().getLevel(event.getSpawnWorld()).getBlockState(event.getNewSpawn()).getBlock() instanceof BedBlock
 				) {
-					if (event.getPlayer() instanceof ServerPlayerEntity) {
+					if (event.getPlayer() instanceof ServerPlayer) {
 //						ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
 						if (
-							(event.getNewSpawn() != null && !event.getNewSpawn().equals(player.func_241140_K_())) ||
-							!player.func_241141_L_().equals(event.getSpawnWorld())
+							(event.getNewSpawn() != null && !event.getNewSpawn().equals(player.getRespawnPosition())) ||
+							!player.getRespawnDimension().equals(event.getSpawnWorld())
 						) {
 							Networking.INSTANCE.send(
 									PacketDistributor.PLAYER.with(() -> player),
 									new OpenSetSpawnGuiPacket(
-											player.func_241141_L_(),
-											player.func_241140_K_(),
+											player.getRespawnDimension(),
+											player.getRespawnPosition(),
 											event.getSpawnWorld(),
 											event.getNewSpawn(),
-											player.func_242109_L()));
+											player.getRespawnAngle()));
 							event.setCanceled(true);
 						}
 					}

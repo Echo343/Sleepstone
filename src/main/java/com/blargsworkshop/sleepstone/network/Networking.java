@@ -6,10 +6,10 @@ import com.blargsworkshop.sleepstone.Sleepstone;
 import com.blargsworkshop.sleepstone.spawn.packet.OpenSetSpawnGuiPacket;
 import com.blargsworkshop.sleepstone.spawn.packet.SetSpawnPacket;
 
-import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraftforge.network.NetworkDirection;
+import net.minecraftforge.network.NetworkRegistry;
+import net.minecraftforge.network.simple.SimpleChannel;
 
 public class Networking {
 	public static SimpleChannel INSTANCE;

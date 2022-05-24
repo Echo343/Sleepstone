@@ -4,12 +4,13 @@ import java.util.function.Supplier;
 
 import com.blargsworkshop.sleepstone.spawn.capability.SetSpawnChoiceProvider;
 
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.util.RegistryKey;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkEvent;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
+import net.minecraftforge.network.NetworkEvent;
 
 public class SetSpawnPacket {
 
@@ -17,19 +18,19 @@ public class SetSpawnPacket {
 	private final float direction;
 	private final ResourceLocation worldResourceLocation;
 
-	public SetSpawnPacket(PacketBuffer buf) {
+	public SetSpawnPacket(FriendlyByteBuf buf) {
 		pos = buf.readBlockPos();
 		direction = buf.readFloat();
 		worldResourceLocation = buf.readResourceLocation();
 	}
 
-	public SetSpawnPacket(RegistryKey<World> world, BlockPos pos, float direction) {
+	public SetSpawnPacket(ResourceKey<Level> world, BlockPos pos, float direction) {
 		this.pos = pos;
 		this.direction = direction;
-		this.worldResourceLocation = world.getLocation();
+		this.worldResourceLocation = world.location();
 	}
 
-	public void toBytes(PacketBuffer buf) {
+	public void toBytes(FriendlyByteBuf buf) {
 		buf.writeBlockPos(pos);
 		buf.writeFloat(direction);
 		buf.writeResourceLocation(worldResourceLocation);
@@ -37,11 +38,11 @@ public class SetSpawnPacket {
 
 	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			RegistryKey<World> world = RegistryKey.getOrCreateKey(net.minecraft.util.registry.Registry.WORLD_KEY, this.worldResourceLocation);
+			ResourceKey<Level> world = ResourceKey.create(Registry.DIMENSION_REGISTRY, this.worldResourceLocation);
 			ctx.get().getSender().getCapability(SetSpawnChoiceProvider.SET_SPAWN_CHOICE_CAPABILITY).ifPresent((spawnChoice) -> {
 				spawnChoice.setSpawnChoice(true);
 			});
-			ctx.get().getSender().func_242111_a(world, pos, direction, false, true);
+			ctx.get().getSender().setRespawnPosition(world, pos, direction, false, true);
 		});
 		ctx.get().setPacketHandled(true);
 	}
