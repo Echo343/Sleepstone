@@ -1,5 +1,9 @@
 package com.blargsworkshop.sleepstone;
 
+import net.minecraft.block.Blocks;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+
 import com.blargsworkshop.sleepstone.network.Networking;
 import com.blargsworkshop.sleepstone.spawn.capability.ISetSpawnChoice;
 import com.blargsworkshop.sleepstone.spawn.capability.SetSpawnChoice;
@@ -9,6 +13,8 @@ import com.blargsworkshop.sleepstone.stone.capability.IStoneCooldown;
 import com.blargsworkshop.sleepstone.stone.capability.StoneCooldown;
 import com.blargsworkshop.sleepstone.stone.capability.StoneCooldownStorage;
 
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.fml.common.Mod;
@@ -37,7 +43,11 @@ public class Sleepstone {
 		CapabilityManager.INSTANCE.register(IStoneCooldown.class, new StoneCooldownStorage(), StoneCooldown::new);
 		CapabilityManager.INSTANCE.register(ISetSpawnChoice.class, new SetSpawnChoiceStorage(), SetSpawnChoice::new);
 	}
-
-
-
+	public static final ItemGroup TAB = new ItemGroup("blargsTab") {
+		@Override
+		@OnlyIn(Dist.CLIENT)
+		public ItemStack createIcon() {
+			return new ItemStack(Blocks.SMITHING_TABLE);
+		}
+	};
 }

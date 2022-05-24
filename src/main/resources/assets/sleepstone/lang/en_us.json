@@ -1,4 +1,7 @@
 {
+    "itemGroup.blargsTab": "Blarg's Workshop",
+    "advancements.blargsworkshop.root.title": "Blarg's Workshop",
+    "advancements.blargsworkshop.root.description": "Where Blarg comes up with his craziest ideas!",
     "advancements.sleepstone.acquire_sleepstone.description": "Acquire a Sleepstone. One of Blarg's more ingenious ideas; this stone will warp you back to your spawn point.",
     "advancements.sleepstone.acquire_sleepstone.title": "Zzzzzzzz...",
     "effect.sleepstone.warp_sickness": "Warp Sickness",

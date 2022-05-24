@@ -1,0 +1,24 @@
+{
+    "display": {
+        "icon": {
+            "item": "minecraft:smithing_table"
+        },
+        "title": {
+            "translate": "advancements.blargsworkshop.root.title"
+        },
+        "description": {
+            "translate": "advancements.blargsworkshop.root.description"
+        },
+        "frame": "task",
+        "show_toast": false,
+        "announce_to_chat": false,
+        "hidden": false,
+        "background": "minecraft:textures/gui/advancements/backgrounds/stone.png"
+    },
+    "criteria": {
+        "always_show": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {}
+        }
+    }
+}
