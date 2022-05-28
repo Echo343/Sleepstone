@@ -1,7 +1,7 @@
 package com.blargsworkshop.sleepstone.spawn.event;
 
 import com.blargsworkshop.sleepstone.network.Networking;
-import com.blargsworkshop.sleepstone.spawn.capability.SetSpawnChoiceProvider;
+import com.blargsworkshop.sleepstone.spawn.capability.SetSpawnChoiceCapability;
 import com.blargsworkshop.sleepstone.spawn.packet.OpenSetSpawnGuiPacket;
 
 import net.minecraft.server.level.ServerPlayer;
@@ -14,7 +14,7 @@ public class SetSpawnEventHandler {
 
 	@SubscribeEvent
 	public void onSpawnPointSet(PlayerSetSpawnEvent event) {
-		event.getPlayer().getCapability(SetSpawnChoiceProvider.SET_SPAWN_CHOICE_CAPABILITY).ifPresent((spawnChoice) -> {
+		event.getPlayer().getCapability(SetSpawnChoiceCapability.INSTANCE).ifPresent((spawnChoice) -> {
 			ServerPlayer player = (ServerPlayer) event.getPlayer();
 			if (spawnChoice.isSetSpawnChoiceActive() || player.getRespawnPosition() == null) {
 				spawnChoice.setSpawnChoice(false);

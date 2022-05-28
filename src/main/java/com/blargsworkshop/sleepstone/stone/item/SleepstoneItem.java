@@ -8,7 +8,7 @@ import com.blargsworkshop.common.utility.WorldHelper;
 import com.blargsworkshop.sleepstone.Registry;
 import com.blargsworkshop.sleepstone.Sleepstone;
 import com.blargsworkshop.sleepstone.stone.capability.IStoneCooldown;
-import com.blargsworkshop.sleepstone.stone.capability.StoneCooldownProvider;
+import com.blargsworkshop.sleepstone.stone.capability.StoneCooldownCapability;
 import com.blargsworkshop.sleepstone.stone.effect.WarpSicknessEffectInstance;
 
 import net.minecraft.ChatFormatting;
@@ -121,7 +121,7 @@ public class SleepstoneItem extends Item {
 		if (player.hasEffect(Registry.Effects.WARP_SICKNESS)) {
 			// Warp Sickness
 			if (WorldHelper.isClient(world)) {		
-				itemstack.getCapability(StoneCooldownProvider.STONE_COOLDOWN_CAPABILITY).ifPresent((cooldown) -> {			
+				itemstack.getCapability(StoneCooldownCapability.INSTANCE).ifPresent((cooldown) -> {			
 					if (world.getGameTime() - cooldown.getWorldTime() >= IStoneCooldown.NOWARP_COOLDOWN) {
 						SoundManager.playSoundAtEntity(player, Registry.Sounds.NOWARP);
 						cooldown.setWorldTime(world.getGameTime());

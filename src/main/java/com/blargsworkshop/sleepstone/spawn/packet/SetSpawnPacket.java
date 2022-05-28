@@ -2,7 +2,7 @@ package com.blargsworkshop.sleepstone.spawn.packet;
 
 import java.util.function.Supplier;
 
-import com.blargsworkshop.sleepstone.spawn.capability.SetSpawnChoiceProvider;
+import com.blargsworkshop.sleepstone.spawn.capability.SetSpawnChoiceCapability;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -39,7 +39,7 @@ public class SetSpawnPacket {
 	public void handle(Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
 			ResourceKey<Level> world = ResourceKey.create(Registry.DIMENSION_REGISTRY, this.worldResourceLocation);
-			ctx.get().getSender().getCapability(SetSpawnChoiceProvider.SET_SPAWN_CHOICE_CAPABILITY).ifPresent((spawnChoice) -> {
+			ctx.get().getSender().getCapability(SetSpawnChoiceCapability.INSTANCE).ifPresent((spawnChoice) -> {
 				spawnChoice.setSpawnChoice(true);
 			});
 			ctx.get().getSender().setRespawnPosition(world, pos, direction, false, true);
