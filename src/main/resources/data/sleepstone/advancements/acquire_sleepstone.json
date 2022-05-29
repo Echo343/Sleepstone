@@ -1,5 +1,5 @@
 {
-    "parent": "blargsworkshop:root",
+    "parent": "sleepstone:root",
     "display": {
         "icon": {
             "item": "sleepstone:stone"
@@ -21,7 +21,9 @@
             "conditions": {
                 "items": [
                     {
-                        "item": "sleepstone:stone"
+                        "items": [
+                        	"sleepstone:stone"
+                    	]
                     }
                 ]
             }
