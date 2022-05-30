@@ -38,7 +38,6 @@ public class SetSpawnChoiceProvider implements ICapabilityProvider {
 		if (event.getObject() instanceof Player) {
 			SetSpawnChoiceProvider provider = new SetSpawnChoiceProvider();
 			event.addCapability(IDENTIFIER, provider);
-			event.addListener(provider::invalidate);
 		}
 	}
 }
