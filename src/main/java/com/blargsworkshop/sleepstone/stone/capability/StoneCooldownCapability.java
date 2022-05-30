@@ -7,7 +7,7 @@ import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid="sleepstone")
 public class StoneCooldownCapability {
 	public static final Capability<IStoneCooldown> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
 	

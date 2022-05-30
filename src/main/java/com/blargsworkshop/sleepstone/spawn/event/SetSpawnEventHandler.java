@@ -26,7 +26,6 @@ public class SetSpawnEventHandler {
 					event.getPlayer().getServer().getLevel(event.getSpawnWorld()).getBlockState(event.getNewSpawn()).getBlock() instanceof BedBlock
 				) {
 					if (event.getPlayer() instanceof ServerPlayer) {
-//						ServerPlayerEntity player = (ServerPlayerEntity) event.getPlayer();
 						if (
 							(event.getNewSpawn() != null && !event.getNewSpawn().equals(player.getRespawnPosition())) ||
 							!player.getRespawnDimension().equals(event.getSpawnWorld())

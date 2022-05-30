@@ -16,7 +16,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(modid="sleepstone")
 public class SetSpawnChoiceProvider implements ICapabilityProvider {
 	
 	private static final ResourceLocation IDENTIFIER = new ResourceLocation(Sleepstone.MOD_ID, "spawn_choice");
