@@ -1,10 +1,7 @@
 package com.blargsworkshop.sleepstone;
 
-import org.slf4j.Logger;
-
 import com.blargsworkshop.sleepstone.network.Networking;
 import com.blargsworkshop.sleepstone.spawn.event.SetSpawnEventHandler;
-import com.mojang.logging.LogUtils;
 
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
@@ -22,7 +19,7 @@ public class Sleepstone {
 	public static final boolean DEBUG = false;
 	
 	 // Directly reference a slf4j logger
-    private static final Logger LOGGER = LogUtils.getLogger();
+//    private static final Logger LOGGER = LogUtils.getLogger();
     
 	public static final String MOD_ID = "sleepstone";
 
