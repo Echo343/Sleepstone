@@ -1,5 +1,8 @@
 package com.blargsworkshop.sleepstone;
 
+import java.util.Arrays;
+import java.util.Optional;
+
 import com.blargsworkshop.sleepstone.network.Networking;
 import com.blargsworkshop.sleepstone.spawn.event.SetSpawnEventHandler;
 
@@ -22,6 +25,25 @@ public class Sleepstone {
 //    private static final Logger LOGGER = LogUtils.getLogger();
     
 	public static final String MOD_ID = "sleepstone";
+	public static final CreativeModeTab TAB;
+	
+	static {
+		Optional<CreativeModeTab> op = Arrays.stream(CreativeModeTab.TABS).filter((tab) -> {
+			return tab.getRecipeFolderName().equalsIgnoreCase("blargsTab");
+		}).findFirst();
+
+		if (op.isPresent()) {
+			TAB = op.get();
+		} else {
+			TAB = new CreativeModeTab("blargsTab") {
+				@Override
+				@OnlyIn(Dist.CLIENT)
+				public ItemStack makeIcon() {
+					return new ItemStack(Blocks.SMITHING_TABLE);
+				}
+			};
+		}
+	}
 
 	public Sleepstone() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
@@ -35,11 +57,11 @@ public class Sleepstone {
 		Networking.registerMessages();		
 	}
 	
-	public static final CreativeModeTab TAB = new CreativeModeTab("blargsTab") {
-        @Override
-		@OnlyIn(Dist.CLIENT)
-        public ItemStack makeIcon() {
-            return new ItemStack(Blocks.SMITHING_TABLE);
-        }
-    };
+//	public static final CreativeModeTab TAB = new CreativeModeTab("blargsTab") {
+//        @Override
+//		@OnlyIn(Dist.CLIENT)
+//        public ItemStack makeIcon() {
+//            return new ItemStack(Blocks.SMITHING_TABLE);
+//        }
+//    };
 }

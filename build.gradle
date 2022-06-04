@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 
 
-version = '1.3.0'
+version = '1.3.1-pre'
 group = 'com.blargsworkshop.sleepstone' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'Sleepstone-1.18.2'
 
