@@ -1,4 +1,4 @@
-package com.blargsworkshop.common.utility;
+package com.blargsworkshop.sleepstone.common.utility;
 
 import net.minecraft.world.level.Level;
 

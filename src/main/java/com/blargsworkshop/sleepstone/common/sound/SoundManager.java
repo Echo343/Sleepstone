@@ -1,4 +1,4 @@
-package com.blargsworkshop.common.sound;
+package com.blargsworkshop.sleepstone.common.sound;
 
 import javax.annotation.Nonnull;
 

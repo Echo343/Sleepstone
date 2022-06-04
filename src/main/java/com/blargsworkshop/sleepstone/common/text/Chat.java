@@ -1,4 +1,4 @@
-package com.blargsworkshop.common.text;
+package com.blargsworkshop.sleepstone.common.text;
 
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;

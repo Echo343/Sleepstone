@@ -1,5 +1,5 @@
 {
-    "parent": "sleepstone:root",
+    "parent": "blargsworkshop:root",
     "display": {
         "icon": {
             "item": "sleepstone:stone"
