@@ -1,19 +1,14 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#R#",
-        "gBg",
-        "#R#"
+        "#g#",
+        "RBR",
+        "#g#"
     ],
     "key": {
-        "#": [
-            {
-                "item": "minecraft:stone"
-            },
-            {
-                "item": "minecraft:polished_blackstone"
-            }
-        ],
+        "#": {
+            "item": "minecraft:calcite"
+        },
         "R": {
             "item": "minecraft:redstone_block"
         },
