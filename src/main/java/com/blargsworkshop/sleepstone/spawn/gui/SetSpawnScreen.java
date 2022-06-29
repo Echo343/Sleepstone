@@ -13,11 +13,10 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
@@ -32,7 +31,7 @@ public class SetSpawnScreen extends Screen {
 	private int currentPosTextY = 0;
 	
 	public SetSpawnScreen(ResourceKey<Level> worldKey, @Nullable BlockPos spawnPos, ResourceKey<Level> newWorldKey, BlockPos newSpawnPos, float direction) {
-		super(new TranslatableComponent("text.gui.title.setspawn"));
+		super(Component.translatable("text.gui.title.setspawn"));
 		this.newWorldKey = newWorldKey;
 		this.newSpawnPos = newSpawnPos;
 		this.direction = direction;
@@ -43,25 +42,25 @@ public class SetSpawnScreen extends Screen {
 
 		switch (worldStr) {
 			case "overworld":
-				worldStringComponent = new TranslatableComponent("text.gui.overworld");
+				worldStringComponent = Component.translatable("text.gui.overworld");
 				worldColor = Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_GREEN));
 				break;
 			case "the_nether":
-				worldStringComponent = new TranslatableComponent("text.gui.nether");
+				worldStringComponent = Component.translatable("text.gui.nether");
 				worldColor = Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_RED));
 				break;
 			default:
-				worldStringComponent = new TextComponent(worldStr);
+				worldStringComponent = Component.literal(worldStr);
 				worldColor = Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.YELLOW));
 				break;
 		}
 		
 		worldStringComponent.setStyle(worldColor);
 		if (spawnPos == null) {
-			currentSpawnMsgKey = new TranslatableComponent("text.gui.no_spawn_set");
+			currentSpawnMsgKey = Component.translatable("text.gui.no_spawn_set");
 		}
 		else {
-			currentSpawnMsgKey = new TranslatableComponent("text.gui.current_spawn", worldStringComponent, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());			
+			currentSpawnMsgKey = Component.translatable("text.gui.current_spawn", worldStringComponent, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());			
 		}
 		currentSpawnMsgKey.setStyle(currentSpawnMsgKey.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GRAY)));
 	}
@@ -71,10 +70,10 @@ public class SetSpawnScreen extends Screen {
 		int relX = (this.width - WIDTH) / 2;
 		int relY = (this.height - HEIGHT) / 2;
 		
-		MutableComponent yes = new TranslatableComponent("text.button.yes");
+		MutableComponent yes = Component.translatable("text.button.yes");
 		yes.setStyle(yes.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)));
 		
-		MutableComponent no = new TranslatableComponent("text.button.no");
+		MutableComponent no = Component.translatable("text.button.no");
 		no.setStyle(no.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_RED)));
 		
 		currentPosTextY = relY + 10;
