@@ -25,7 +25,7 @@ public class OpenSetSpawnGuiPacket {
 		worldKey = ResourceKey.create(Registry.DIMENSION_REGISTRY, buf.readResourceLocation());
 		boolean isNotNull = buf.readBoolean();
 		if (isNotNull) {
-			spawnPos = buf.readBlockPos();			
+			spawnPos = buf.readBlockPos();
 		}
 		else {
 			spawnPos = null;

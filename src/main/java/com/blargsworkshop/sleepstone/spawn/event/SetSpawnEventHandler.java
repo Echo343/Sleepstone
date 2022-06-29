@@ -21,7 +21,7 @@ public class SetSpawnEventHandler {
 			}
 			else {
 				if (
-					event.isForced() == false &&
+					!event.isForced() &&
 					event.getNewSpawn() != null &&
 					event.getPlayer().getServer().getLevel(event.getSpawnWorld()).getBlockState(event.getNewSpawn()).getBlock() instanceof BedBlock
 				) {

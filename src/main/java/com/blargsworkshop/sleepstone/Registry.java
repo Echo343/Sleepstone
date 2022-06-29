@@ -22,7 +22,7 @@ public class Registry {
 		EFFECTS.register(FMLJavaModLoadingContext.get().getModEventBus());
 		SOUNDS.register(FMLJavaModLoadingContext.get().getModEventBus());
 	}
-	
+
 	static {
 		ITEMS.register("stone", SleepstoneItem::new);
 		EFFECTS.register("warp_sickness", WarpSicknessEffect::new);
@@ -37,19 +37,19 @@ public class Registry {
 		SOUNDS.register("channel_waiting", () -> new SoundEvent(new ResourceLocation(Sleepstone.MOD_ID, "effect.warp.channel.waiting")));
 		SOUNDS.register("nowarp", () -> new SoundEvent(new ResourceLocation(Sleepstone.MOD_ID, "effect.warp.no.warp")));
 	}
-	
+
 	// TODO - I'm just making new RegistryObjects down below which is unnecessary since the above register commands return a RegistryObject.
 
 	// Items
 	public static class Items {
 		public static final RegistryObject<Item> STONE = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "stone"), ForgeRegistries.ITEMS);
 	}
-	
+
 	// Effects
 	public static class Effects {
 		public static final RegistryObject<MobEffect> WARP_SICKNESS = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "warp_sickness"), ForgeRegistries.MOB_EFFECTS);
 	}
-	
+
 	// Sounds
 	public static class Sounds {
 		public static final RegistryObject<SoundEvent> WARP_IN = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "warp_in"), ForgeRegistries.SOUND_EVENTS);

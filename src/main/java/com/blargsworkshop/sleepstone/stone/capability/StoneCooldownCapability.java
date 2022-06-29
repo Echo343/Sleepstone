@@ -10,11 +10,11 @@ import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(modid="sleepstone")
 public class StoneCooldownCapability {
 	public static final Capability<IStoneCooldown> INSTANCE = CapabilityManager.get(new CapabilityToken<>() {});
-	
+
 	@SubscribeEvent
 	public static void register(RegisterCapabilitiesEvent event) {
 		event.register(IStoneCooldown.class);
 	}
-	
+
 	private StoneCooldownCapability() {}
 }

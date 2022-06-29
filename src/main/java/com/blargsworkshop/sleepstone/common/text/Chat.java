@@ -15,7 +15,7 @@ public class Chat {
 	public static void addUnlocalizedChatMessage(Player player, String message) {
 		player.sendSystemMessage(Component.literal(message));
 	}
-	
+
 	public static void showStatusMessage(Player player, TextColor color, String messageKey, Object... args) {
 		MutableComponent text = Component.translatable(messageKey, args);
 		Style style = text.getStyle()
@@ -23,7 +23,7 @@ public class Chat {
 		text.setStyle(style);
 		player.displayClientMessage(text, true);
 	}
-	
+
 	public static void clearStatusMessage(Player player) {
 		player.displayClientMessage(Component.literal(""), true);
 	}

@@ -21,7 +21,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.level.Level;
 
 public class SetSpawnScreen extends Screen {
-	
+
 	private static final int WIDTH = 179;
 	private static final int HEIGHT = 151;
 	private final BlockPos newSpawnPos;
@@ -29,13 +29,13 @@ public class SetSpawnScreen extends Screen {
 	private final float direction;
 	private final MutableComponent currentSpawnMsgKey;
 	private int currentPosTextY = 0;
-	
+
 	public SetSpawnScreen(ResourceKey<Level> worldKey, @Nullable BlockPos spawnPos, ResourceKey<Level> newWorldKey, BlockPos newSpawnPos, float direction) {
 		super(Component.translatable("text.gui.title.setspawn"));
 		this.newWorldKey = newWorldKey;
 		this.newSpawnPos = newSpawnPos;
 		this.direction = direction;
-		
+
 		String worldStr = worldKey.location().getPath();
 		MutableComponent worldStringComponent;
 		Style worldColor;
@@ -54,44 +54,44 @@ public class SetSpawnScreen extends Screen {
 				worldColor = Style.EMPTY.withColor(TextColor.fromLegacyFormat(ChatFormatting.YELLOW));
 				break;
 		}
-		
+
 		worldStringComponent.setStyle(worldColor);
 		if (spawnPos == null) {
 			currentSpawnMsgKey = Component.translatable("text.gui.no_spawn_set");
 		}
 		else {
-			currentSpawnMsgKey = Component.translatable("text.gui.current_spawn", worldStringComponent, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());			
+			currentSpawnMsgKey = Component.translatable("text.gui.current_spawn", worldStringComponent, spawnPos.getX(), spawnPos.getY(), spawnPos.getZ());
 		}
 		currentSpawnMsgKey.setStyle(currentSpawnMsgKey.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GRAY)));
 	}
-	
+
 	@Override
 	protected void init() {
 		int relX = (this.width - WIDTH) / 2;
 		int relY = (this.height - HEIGHT) / 2;
-		
+
 		MutableComponent yes = Component.translatable("text.button.yes");
 		yes.setStyle(yes.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.GREEN)));
-		
+
 		MutableComponent no = Component.translatable("text.button.no");
 		no.setStyle(no.getStyle().withColor(TextColor.fromLegacyFormat(ChatFormatting.DARK_RED)));
-		
+
 		currentPosTextY = relY + 10;
-		
+
         addRenderableWidget(new Button(relX + 10, relY + 37, 160, 20, yes, button -> setSpawn()));
         addRenderableWidget(new Button(relX + 10, relY + 64, 160, 20, no, button -> this.getMinecraft().setScreen(null)));
 	}
-	
+
 	@Override
 	public boolean isPauseScreen() {
 		return false;
 	}
-	
+
 	private void setSpawn() {
 		Networking.INSTANCE.sendToServer(new SetSpawnPacket(newWorldKey, newSpawnPos, direction));
 		this.getMinecraft().setScreen(null);
 	}
-	
+
 	@Override
 	public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
 		// TODO this changed, might have unexpected side effects
@@ -102,7 +102,7 @@ public class SetSpawnScreen extends Screen {
         GuiComponent.drawCenteredString(matrixStack, this.font, this.currentSpawnMsgKey, this.width / 2, currentPosTextY, 16777215);
 		super.render(matrixStack, mouseX, mouseY, partialTicks);
 	}
-	
+
 	public static void open(ResourceKey<Level> worldKey, @Nullable BlockPos spawnPos, ResourceKey<Level> newWorldKey, BlockPos newSpawnPos, float direction) {
 		Minecraft.getInstance().setScreen(new SetSpawnScreen(worldKey, spawnPos, newWorldKey, newSpawnPos, direction));
 	}

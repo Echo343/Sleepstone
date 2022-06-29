@@ -31,14 +31,14 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.registries.RegistryObject;
 
 public class SleepstoneItem extends Item {
-	
+
 //    private static final Logger LOG = LogManager.getLogger();
 	private static final int CHANNEL_DURATION = 20 * 4;
-	
+
 	public SleepstoneItem() {
 		super(new Item.Properties().tab(Sleepstone.TAB).stacksTo(1));
 	}
-		
+
 	@Override
 	public void releaseUsing(ItemStack stack, Level worldIn, LivingEntity entityLiving, int timeLeft) {
 		if (entityLiving instanceof Player) {
@@ -69,7 +69,7 @@ public class SleepstoneItem extends Item {
 				boolean isWarpReady = this.getUseDuration(stack) - count >= CHANNEL_DURATION;
 				if (isWarpReady) {
 					Chat.showStatusMessage(player, TextColor.fromLegacyFormat(ChatFormatting.GREEN), "warp.is.ready");
-				}			
+				}
 			}
 			int i = this.getUseDuration(stack) - count;
 			switch (i) {
@@ -102,7 +102,7 @@ public class SleepstoneItem extends Item {
 			}
 		}
 	}
-	
+
 	private void playSound(Player player, Level world, RegistryObject<SoundEvent> sound) {
 		if (WorldHelper.isClient(world)) {
 			SoundManager.playSoundAtEntity(player, sound);
@@ -121,8 +121,8 @@ public class SleepstoneItem extends Item {
 		ItemStack itemstack = player.getItemInHand(handIn);
 		if (!Registry.Effects.WARP_SICKNESS.isPresent() || player.hasEffect(Registry.Effects.WARP_SICKNESS.get())) {
 			// Warp Sickness
-			if (WorldHelper.isClient(world)) {		
-				itemstack.getCapability(StoneCooldownCapability.INSTANCE).ifPresent((cooldown) -> {			
+			if (WorldHelper.isClient(world)) {
+				itemstack.getCapability(StoneCooldownCapability.INSTANCE).ifPresent((cooldown) -> {
 					if (world.getGameTime() - cooldown.getWorldTime() >= IStoneCooldown.NOWARP_COOLDOWN) {
 						SoundManager.playSoundAtEntity(player, Registry.Sounds.NOWARP);
 						cooldown.setWorldTime(world.getGameTime());
@@ -172,15 +172,15 @@ public class SleepstoneItem extends Item {
 						// Warp
 						SoundManager.playSoundAtEntity(player, Registry.Sounds.WARP_OUT);
 						player.teleportTo(serverworld, optional.get().x(), optional.get().y(), optional.get().z(), player.yRotO, player.xRotO);
-						
+
 						// Resync some things that Vanilla is missing:
-						if (world != serverworld) {					
+						if (world != serverworld) {
 					        for (MobEffectInstance effectinstance : player.getActiveEffects()) {
 					            player.connection.send(new ClientboundUpdateMobEffectPacket(player.getId(), effectinstance));
 					        }
 					        player.setExperienceLevels(player.experienceLevel);
 						}
-				        
+
 				        // TODO - stop all sounds for player
 				        player.addEffect(new WarpSicknessEffectInstance());
 				        SoundManager.playSoundAtEntityFromServer(player, Registry.Sounds.WARP_IN);

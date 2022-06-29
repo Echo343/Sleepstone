@@ -18,21 +18,21 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid="sleepstone")
 public class SetSpawnChoiceProvider implements ICapabilityProvider {
-	
+
 	private static final ResourceLocation IDENTIFIER = new ResourceLocation(Sleepstone.MOD_ID, "spawn_choice");
-	
+
 	private final ISetSpawnChoice backend = new SetSpawnChoice();
 	private final LazyOptional<ISetSpawnChoice> optionalData = LazyOptional.of(() -> backend);
-	
+
 	void invalidate() {
 		optionalData.invalidate();
 	}
-	
+
 	@Override
 	public <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
 		return SetSpawnChoiceCapability.INSTANCE.orEmpty(cap, this.optionalData);
 	}
-	
+
 	@SubscribeEvent
 	public static void onAttachCapabilityToEntity(AttachCapabilitiesEvent<Entity> event) {
 		if (event.getObject() instanceof Player) {

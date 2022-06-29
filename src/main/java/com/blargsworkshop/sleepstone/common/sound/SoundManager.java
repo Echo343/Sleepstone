@@ -27,10 +27,10 @@ public class SoundManager {
 	 */
 	public static void playSoundAtEntity(Entity entity, RegistryObject<SoundEvent> soundObject, float volume) {
 		soundObject.ifPresent((sound) -> {
-			entity.playSound(sound, volume, 1F);			
+			entity.playSound(sound, volume, 1F);
 		});
 	}
-	
+
 	/**
 	 * Plays a sound at the entity's position.
 	 * This must be called from both the client and the server.
@@ -40,7 +40,7 @@ public class SoundManager {
 	public static void playSoundAtEntity(Entity entity, RegistryObject<SoundEvent> soundObject) {
 		playSoundAtEntity(entity, soundObject, 1f);
 	}
-	
+
 	/**
 	 * Plays a sound at the entity's position.
 	 * Use this method when only calling from the server.
@@ -58,7 +58,7 @@ public class SoundManager {
 			playSoundAtEntity(entity, soundObject);
 		}
 	}
-	
+
 	/***
 	 * Plays sound at entity to all within range. Must be called from server only.
 	 * @param player

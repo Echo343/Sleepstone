@@ -9,10 +9,10 @@ public class WarpSicknessEffect extends MobEffect {
 	public WarpSicknessEffect() {
 		super(MobEffectCategory.NEUTRAL, 0);
 	}
-	
+
 	@Override
 	public void applyEffectTick(LivingEntity entityLivingBaseIn, int amplifier) {	}
-	
+
 	@Override
 	public boolean isDurationEffectTick(int duration, int amplifier) {
 		return false;

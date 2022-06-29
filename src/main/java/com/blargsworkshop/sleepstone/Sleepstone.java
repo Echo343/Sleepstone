@@ -20,13 +20,13 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 @Mod("sleepstone")
 public class Sleepstone {
 	public static final boolean DEBUG = false;
-	
+
 	 // Directly reference a slf4j logger
 //    private static final Logger LOGGER = LogUtils.getLogger();
-    
+
 	public static final String MOD_ID = "sleepstone";
 	public static final CreativeModeTab TAB;
-	
+
 	static {
 		Optional<CreativeModeTab> op = Arrays.stream(CreativeModeTab.TABS).filter((tab) -> {
 			return tab.getRecipeFolderName().equalsIgnoreCase("blargsTab");
@@ -48,12 +48,12 @@ public class Sleepstone {
 	public Sleepstone() {
 		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
 
-		Registry.init();		
+		Registry.init();
 
 		MinecraftForge.EVENT_BUS.register(new SetSpawnEventHandler());
 	}
 
 	private void setup(final FMLCommonSetupEvent event) {
-		Networking.registerMessages();		
+		Networking.registerMessages();
 	}
 }

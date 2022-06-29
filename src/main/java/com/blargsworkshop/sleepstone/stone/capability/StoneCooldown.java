@@ -1,7 +1,7 @@
 package com.blargsworkshop.sleepstone.stone.capability;
 
 public class StoneCooldown implements IStoneCooldown {
-		
+
 	private long worldTime = 0;
 
 	@Override
