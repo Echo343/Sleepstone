@@ -28,6 +28,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.UseAnim;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import net.minecraftforge.registries.RegistryObject;
 
 public class SleepstoneItem extends Item {
 	
@@ -102,7 +103,7 @@ public class SleepstoneItem extends Item {
 		}
 	}
 	
-	private void playSound(Player player, Level world, SoundEvent sound) {
+	private void playSound(Player player, Level world, RegistryObject<SoundEvent> sound) {
 		if (WorldHelper.isClient(world)) {
 			SoundManager.playSoundAtEntity(player, sound);
 		}
@@ -118,7 +119,7 @@ public class SleepstoneItem extends Item {
 	@Override
 	public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand handIn) {
 		ItemStack itemstack = player.getItemInHand(handIn);
-		if (player.hasEffect(Registry.Effects.WARP_SICKNESS)) {
+		if (!Registry.Effects.WARP_SICKNESS.isPresent() || player.hasEffect(Registry.Effects.WARP_SICKNESS.get())) {
 			// Warp Sickness
 			if (WorldHelper.isClient(world)) {		
 				itemstack.getCapability(StoneCooldownCapability.INSTANCE).ifPresent((cooldown) -> {			

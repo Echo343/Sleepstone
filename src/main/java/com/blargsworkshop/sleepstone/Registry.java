@@ -10,7 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.ObjectHolder;
+import net.minecraftforge.registries.RegistryObject;
 
 public class Registry {
 	static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Sleepstone.MOD_ID);
@@ -37,31 +37,30 @@ public class Registry {
 		SOUNDS.register("channel_waiting", () -> new SoundEvent(new ResourceLocation(Sleepstone.MOD_ID, "effect.warp.channel.waiting")));
 		SOUNDS.register("nowarp", () -> new SoundEvent(new ResourceLocation(Sleepstone.MOD_ID, "effect.warp.no.warp")));
 	}
+	
+	// TODO - I'm just making new RegistryObjects down below which is unnecessary since the above register commands return a RegistryObject.
 
 	// Items
-	@ObjectHolder("sleepstone")
 	public static class Items {
-		public static final Item STONE = null;
+		public static final RegistryObject<Item> STONE = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "stone"), ForgeRegistries.ITEMS);
 	}
 	
 	// Effects
-	@ObjectHolder("sleepstone")
 	public static class Effects {
-		public static final MobEffect WARP_SICKNESS = null;
+		public static final RegistryObject<MobEffect> WARP_SICKNESS = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "warp_sickness"), ForgeRegistries.MOB_EFFECTS);
 	}
 	
 	// Sounds
-	@ObjectHolder("sleepstone")
 	public static class Sounds {
-		public static final SoundEvent WARP_IN = null;
-		public static final SoundEvent WARP_OUT = null;
-		public static final SoundEvent CHANNEL1 = null;
-		public static final SoundEvent CHANNEL15 = null;
-		public static final SoundEvent CHANNEL30 = null;
-		public static final SoundEvent CHANNEL60 = null;
-		public static final SoundEvent CHANNEL120 = null;
-		public static final SoundEvent FIZZLE = null;
-		public static final SoundEvent CHANNEL_WAITING = null;
-		public static final SoundEvent NOWARP = null;
+		public static final RegistryObject<SoundEvent> WARP_IN = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "warp_in"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> WARP_OUT = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "warp_out"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> CHANNEL1 = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "channel1"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> CHANNEL15 = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "channel15"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> CHANNEL30 = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "channel30"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> CHANNEL60 = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "channel60"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> CHANNEL120 = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "channel120"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> FIZZLE = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "fizzle"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> CHANNEL_WAITING = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "channel_waiting"), ForgeRegistries.SOUND_EVENTS);
+		public static final RegistryObject<SoundEvent> NOWARP = RegistryObject.create(new ResourceLocation(Sleepstone.MOD_ID, "nowarp"), ForgeRegistries.SOUND_EVENTS);
 	}
 }
