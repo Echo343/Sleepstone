@@ -7,7 +7,8 @@ import net.minecraft.network.chat.TextColor;
 import net.minecraft.world.entity.player.Player;
 
 public class Chat {
-
+	// TODO overload to take Components
+	
 	public static void addChatMessage(Player player, String messageKey, Object... args) {
 		player.sendSystemMessage(Component.translatable(messageKey, args));
 	}
