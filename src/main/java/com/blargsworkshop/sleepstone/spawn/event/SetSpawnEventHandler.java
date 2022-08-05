@@ -14,8 +14,8 @@ public class SetSpawnEventHandler {
 
 	@SubscribeEvent
 	public void onSpawnPointSet(PlayerSetSpawnEvent event) {
-		event.getPlayer().getCapability(SetSpawnChoiceCapability.INSTANCE).ifPresent((spawnChoice) -> {
-			ServerPlayer player = (ServerPlayer) event.getPlayer();
+		event.getEntity().getCapability(SetSpawnChoiceCapability.INSTANCE).ifPresent((spawnChoice) -> {
+			ServerPlayer player = (ServerPlayer) event.getEntity();
 			if (spawnChoice.isSetSpawnChoiceActive() || player.getRespawnPosition() == null) {
 				spawnChoice.setSpawnChoice(false);
 			}
@@ -23,19 +23,19 @@ public class SetSpawnEventHandler {
 				if (
 					!event.isForced() &&
 					event.getNewSpawn() != null &&
-					event.getPlayer().getServer().getLevel(event.getSpawnWorld()).getBlockState(event.getNewSpawn()).getBlock() instanceof BedBlock
+					event.getEntity().getServer().getLevel(event.getSpawnLevel()).getBlockState(event.getNewSpawn()).getBlock() instanceof BedBlock
 				) {
-					if (event.getPlayer() instanceof ServerPlayer) {
+					if (event.getEntity() instanceof ServerPlayer) {
 						if (
 							(event.getNewSpawn() != null && !event.getNewSpawn().equals(player.getRespawnPosition())) ||
-							!player.getRespawnDimension().equals(event.getSpawnWorld())
+							!player.getRespawnDimension().equals(event.getSpawnLevel())
 						) {
 							Networking.INSTANCE.send(
 									PacketDistributor.PLAYER.with(() -> player),
 									new OpenSetSpawnGuiPacket(
 											player.getRespawnDimension(),
 											player.getRespawnPosition(),
-											event.getSpawnWorld(),
+											event.getSpawnLevel(),
 											event.getNewSpawn(),
 											player.getRespawnAngle()));
 							event.setCanceled(true);
